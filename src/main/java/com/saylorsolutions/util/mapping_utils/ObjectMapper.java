@@ -18,6 +18,7 @@ public class ObjectMapper {
 		return createTarget(FieldUtils.getFieldValueMap(source), clazz);
 	}
 	public static <T> T createTarget(SourceValueMap source, Class<T> clazz) {
+		if(source == null || clazz == null) throw new IllegalArgumentException("Both source and clazz parameters must not be null");
 		T instance = null;
 		try {
 			instance = clazz.newInstance();
@@ -28,14 +29,14 @@ public class ObjectMapper {
 		return updateTarget(source, instance);
 	}
 	public static <T> T updateTarget(Object source, T target) {
-		if (source != null) {
+		if (source != null && target != null) {
 			return updateTarget(FieldUtils.getFieldValueMap(source), target);
 		} else {
-			throw new IllegalArgumentException("Object source parameter may not be null");
+			throw new IllegalArgumentException("Both source and target parameters must be non-null");
 		}
 	}
 	public static <T> T updateTarget(SourceValueMap source, T target) {
-		if(source == null) throw new IllegalArgumentException("FieldValueMap parameter may not be null");
+		if(source == null || target == null) throw new IllegalArgumentException("FieldValueMap and target parameters must be non-null");
 
 		Map<String, Field> targetFields = FieldUtils.getAllFields(target, f -> {
 			return f.isAnnotationPresent(MappingSourceName.class);

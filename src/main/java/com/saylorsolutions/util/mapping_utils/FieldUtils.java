@@ -13,7 +13,8 @@ public class FieldUtils {
 	}
 
 	public static Map<String, Field> getAllFields(Object obj, Predicate<Field> pred) {
-		if(obj == null) throw new IllegalArgumentException("Object parameter may not be null");
+		if (obj == null)
+			throw new IllegalArgumentException("Object parameter may not be null");
 		return getAllFields(obj.getClass(), pred);
 	}
 
@@ -22,28 +23,30 @@ public class FieldUtils {
 	}
 
 	public static Map<String, Field> getAllFields(Class<?> clazz, Predicate<Field> pred) {
-		if(clazz == null) throw new IllegalArgumentException("Class parameter may not be null");
+		if (clazz == null || pred == null)
+			throw new IllegalArgumentException("Both Class and Predicate parameter must be non-null");
 		HashMap<String, Field> map = new HashMap<>();
-		for(Field f : clazz.getDeclaredFields()) {
+		for (Field f : clazz.getDeclaredFields()) {
 			if (pred.test(f)) {
 				map.put(f.getName(), f);
 			}
 		}
 		return map;
 	}
-	
+
 	public static SourceValueMap getFieldValueMap(Object obj) {
 		return getFieldValueMap(obj, o -> true);
 	}
 
 	public static SourceValueMap getFieldValueMap(Object obj, Predicate<Object> pred) {
-		if(obj == null) throw new IllegalArgumentException("Object parameter may not be null");
+		if (obj == null)
+			throw new IllegalArgumentException("Object parameter may not be null");
 		SourceValueMap fieldValueMap = new SourceValueMap();
-		for(Field f : obj.getClass().getDeclaredFields()) {
+		for (Field f : obj.getClass().getDeclaredFields()) {
 			if (pred.test(obj)) {
 				try {
 					Object value = null;
-					if(!f.isAccessible()) {
+					if (!f.isAccessible()) {
 						f.setAccessible(true);
 						value = f.get(obj);
 						f.setAccessible(false);
@@ -62,11 +65,9 @@ public class FieldUtils {
 	public static String getFieldGetter(Field field) {
 		String targetFieldSetter = "";
 		if (field.getType() == boolean.class || field.getType() == Boolean.class) {
-			targetFieldSetter = "is" + field.getName().toUpperCase().substring(0, 1)
-					+ field.getName().substring(1);
+			targetFieldSetter = "is" + field.getName().toUpperCase().substring(0, 1) + field.getName().substring(1);
 		} else {
-			targetFieldSetter = "get" + field.getName().toUpperCase().substring(0, 1)
-					+ field.getName().substring(1);
+			targetFieldSetter = "get" + field.getName().toUpperCase().substring(0, 1) + field.getName().substring(1);
 		}
 		return targetFieldSetter;
 	}
