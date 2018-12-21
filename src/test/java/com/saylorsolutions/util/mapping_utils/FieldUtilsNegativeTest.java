@@ -16,38 +16,50 @@
 
 package com.saylorsolutions.util.mapping_utils;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FieldUtilsNegativeTest {
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void expecteIllegalArgumentNullClazz() {
-		FieldUtils.getAllFields((Class<?>)null);
+		assertThrows(IllegalArgumentException.class, () -> {
+			FieldUtils.getAllFields((Class<?>)null);
+		});
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void expecteIllegalArgumentNullClazzGoodPred() {
-		FieldUtils.getAllFields((Class<?>)null, f -> true);
+		assertThrows(IllegalArgumentException.class, () -> {
+			FieldUtils.getAllFields((Class<?>)null, f -> true);
+		});
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void expecteIllegalArgumentGoodClazzNullPred() {
-		FieldUtils.getAllFields(SomeClass.class, (Predicate<Field>)null);
+		assertThrows(IllegalArgumentException.class, () -> {
+			FieldUtils.getAllFields(SomeClass.class, (Predicate<Field>)null);
+		});
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void expecteIllegalArgumentNullObjGoodPred() {
-		FieldUtils.getAllFields((SomeClass)null, f -> true);
+		assertThrows(IllegalArgumentException.class, () -> {
+			FieldUtils.getAllFields((SomeClass)null, f -> true);
+		});
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void expecteIllegalArgumentGoodObjNullPred() {
-		FieldUtils.getAllFields(new SomeClass(), (Predicate<Field>)null);
+		assertThrows(IllegalArgumentException.class, () -> {
+			FieldUtils.getAllFields(new SomeClass(), (Predicate<Field>)null);
+		});
 	}
 
 	@Test

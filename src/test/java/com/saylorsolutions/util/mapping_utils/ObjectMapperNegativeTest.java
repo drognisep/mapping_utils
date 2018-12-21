@@ -16,18 +16,20 @@
 
 package com.saylorsolutions.util.mapping_utils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.saylorsolutions.util.mapping_utils.annotation.MappingSourceName;
 import com.saylorsolutions.util.mapping_utils.exception.MappingException;
 
 public class ObjectMapperNegativeTest {
-	@Test(expected = MappingException.class)
+	@Test
 	public void expectMappingExceptionNoConstructor() {
-		A a = new A();
-		B b = ObjectMapper.createTarget(a, B.class);
+		assertThrows(MappingException.class, () -> {
+			A a = new A();
+			B b = ObjectMapper.createTarget(a, B.class);
+		});
 	}
 
 	@Test
@@ -37,14 +39,18 @@ public class ObjectMapperNegativeTest {
 		assertEquals(0, a.getA());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void expectIllegalArgumentExceptionNullSource() {
-		A a = ObjectMapper.createTarget((B)null, A.class);
+		assertThrows(IllegalArgumentException.class, () -> {
+			A a = ObjectMapper.createTarget((B)null, A.class);
+		});
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void expectIllegalArgumentExceptionNullClass() {
-		A a = ObjectMapper.createTarget(new B(5), (Class<A>)null);
+		assertThrows(IllegalArgumentException.class, () -> {
+			A a = ObjectMapper.createTarget(new B(5), (Class<A>)null);
+		});
 	}
 }
 

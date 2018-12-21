@@ -16,12 +16,13 @@
 
 package com.saylorsolutions.util.mapping_utils;
 
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class FieldUtilsTest {
 	@Test
